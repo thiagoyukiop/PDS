@@ -1,0 +1,4 @@
+Primeiramente é feita a importação das bibliotecas necessárias, então alterei a forma de obtenção do arquivo, utilizando outra biblioteca, de forma que não preciso digitar o arquivo, e posso procurar ele, então é feita a verificação se foi feita a seleção do arquivo, assim se for selecionado, o arquivo é totalmente lido como inteiros de 16 bits, é salvo o número de iterações com base no tamanho das amostras. 
+Em seguida é feito o plot do sinal do áudio de entrada. Então é solicitado ao usuário o valor do ganho.
+Com o valor do ganho, é processado o áudio de entrada com o valor do ganho, sendo que é feita a limitação do valor para evitar overflow. Com o valor do sinal do áudio da saída, e feito o plot.
+Então é criada a pasta que irá conter os áudios da saída e gerar o nome do arquivo de saída com base no nome do arquivo de entrada e do ganho definido. Para finalizar, o arquivo é salvo.

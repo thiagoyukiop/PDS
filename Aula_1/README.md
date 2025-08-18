@@ -1,0 +1,1 @@
+Informativo contendo a explicação do código da aula 1. No caso o código que foi feito é  de sinais básicos, onde foi dividido em quatro partes, sendo o primeiro sinal o do sinal unitário em 0, o segundo sendo um degrau unitário, na qual o sinal vira a amplitude em 0, o terceiro é o sinal sinusoidal e o quarto é a sequência exponencial com alpha de 0.8.

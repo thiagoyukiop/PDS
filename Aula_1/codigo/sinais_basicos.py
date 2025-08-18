@@ -1,8 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-Fs = 8000
-f0 = 2000
 Amplitude = 16384
 
 # sinal impulso unitário
@@ -28,10 +26,10 @@ plt.stem(n, degrau)
 plt.title("Sinal Degrau Unitário")
 plt.grid(True)
 
-# Sinal senoidal
+# Sinal de sequência sinusoidal
 senoidal = Amplitude * np.sin(2 * np.pi * 0.1 * n)
 
-# Plotando como linha
+# Plotando com pontos 
 plt.subplot(2, 2, 3)
 plt.stem(n, senoidal)
 plt.title("Sequência Sinosoidal ")
@@ -40,7 +38,7 @@ plt.grid(True)
 # Sequência exponencial
 sinal_exponencial = Amplitude * (0.8 ** n)
 
-# Plotando com pontos (sequência discreta)
+# Plotando com pontos 
 plt.subplot(2, 2, 4)
 plt.stem(n, sinal_exponencial)
 plt.title("Sequência Exponencial (alpha = 0.8))")

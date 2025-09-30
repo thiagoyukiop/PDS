@@ -16,7 +16,9 @@ for k in range(len(n)):
 
 plt.subplot(2, 1, 1)
 plt.stem(n, x)
+plt.ylabel('x[n]')
 
 plt.subplot(2, 1, 2)
 plt.stem(n, y)
+plt.ylabel('y[n]')
 plt.show()

@@ -40,12 +40,14 @@ ax.add_artist(plt.Circle((0, 0), 1, fill=False, linewidth=0.5))
 ax.axhline(0, linewidth=0.5)
 ax.axvline(0, linewidth=0.5)
 
+# Plotagem do Diagrama de Polos e Zeros
 ax.plot([c.real for c in polos], [c.imag for c in polos], 'xr')
 ax.plot([c.real for c in zeros], [c.imag for c in zeros], 'or', mfc='none')
 plt.xlabel('Re')
 plt.ylabel('Im')
 plt.show()
 
+# Resposta em frequência
 w, h = signal.freqz(num, den, fs=Fs)
 plt.plot(w, 20 * np.log10(abs(h)))
 plt.xlabel('Frequência (Hz)')
@@ -53,7 +55,7 @@ plt.ylabel('Atenuação (dB)')
 plt.grid(True)
 plt.show()
 
-# ler sweep (int16)
+# Leitura do arquivo PCM
 input_file = os.path.join("Aula_8/sinal_entrada", "sweep_20_3k4.pcm")
 x = np.memmap(input_file, dtype=np.int16, mode='r').astype(np.float64)
 

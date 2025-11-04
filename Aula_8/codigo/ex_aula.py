@@ -21,7 +21,6 @@ den = [1, -0.577, 0.4218, -0.0563]
 [w, h] = freqz(num, den, worN=Fs, fs=Fs)
 
 # Plotando a frequencia em Rad
-
 X = np.abs(h)
 
 plt.figure(figsize = (12, 12))

@@ -10,7 +10,6 @@ fc = 1000
 Fs = 44100      
 
 # Projetando filtro shelving passa-baixa
-
 if(G >= 0):
     aB_num = np.tan(np.pi * fc / Fs) - 1
     aB_den = np.tan(np.pi * fc / Fs) + 1
@@ -48,14 +47,15 @@ w, H = signal.freqz(a, b, worN=8192, fs=Fs)
 m_db_LF = 20 * np.log10(np.abs(H))
 f_hz_LF = w
 
-# plt.subplot(2,1,1)
-plt.semilogx(f_hz_LF, m_db_LF) # Eixo X logarítmico para frequência
+plt.plot(f_hz_LF, m_db_LF)
 plt.grid(which='both', axis='both')
 plt.axvline(fc, color='r', linestyle='--', label=f'Corte {fc} Hz')
 plt.xlabel('Frequência (Hz)')
 plt.ylabel('Magnitude (dB)')
 plt.title(f'Resposta em Frequência (LF Shelving, G={G} dB)')
 plt.show()
+
+# ---------- Execução do filtro no sinal de entrada ----------
 
 # Leitura do sinal de entrada (sweep)
 input_path_sweep = "Avaliacao_M2/sinal_entrada/sweep_20_20k.pcm"
@@ -65,7 +65,7 @@ n = np.arange(0, len(sinal_aux))
 
 # Visualização do sinal de entrada
 plt.subplot(2, 1, 1)
-plt.stem(n, sinal)
+plt.plot(n, sinal)
 plt.title("Sinal de Entrada (Sweep)")
 plt.grid(True)
 
@@ -85,7 +85,7 @@ for i in range(1, len(sinal_aux)):
     y1_1 = y1
 
 plt.subplot(2, 1, 2)
-plt.stem(n, sinal_saida)
+plt.plot(n, sinal_saida)
 plt.title(f"Executando filtro Shelving Passa-Baixa (G={G} dB)")
 plt.grid(True)
 plt.tight_layout()

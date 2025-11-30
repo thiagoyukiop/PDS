@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from scipy import signal
 
 # Parâmetros iniciais
-G = -10          
+G = 10          
 V0 = 10**(G/20) 
 H0 = V0 - 1     
 fc = 1000       

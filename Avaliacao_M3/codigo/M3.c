@@ -10,6 +10,8 @@
 #include <math.h>
 #include <string.h>
 
+# define M_PI 3.14159265358979323846
+
 /* Configurações do FIR */
 #define FIR_TAPS 101  /* número de coeficientes (ímpar para ter simetria) */
 

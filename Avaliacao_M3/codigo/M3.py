@@ -2,7 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-# Parâmetros
+# -------------------------------------------------------------
+# BLOCO 1 — PARÂMETROS DO SISTEMA
+# -------------------------------------------------------------
 N_AMOSTRAS = 8000  # Número total de amostras
 Fs = 8000        # Frequência de amostragem (Hz)
 F_Senoide = 100
@@ -10,8 +12,9 @@ PASSO_APRENDIZADO = 0.005  # Coeficiente de taxa de aprendizado (mu)
 ORDEM_FILTRO = 5  # Número de coeficientes do filtro adaptativo
 N_EPOCHS = 10    # Número de épocas para o treinamento do filtro
 
-# --- Geração de Sinais ---
-
+# -------------------------------------------------------------
+# BLOCO 1 — GERAÇÃO DOS SINAIS
+# -------------------------------------------------------------
 # 1. Sinal puro (d[n]): Senoide de baixa frequência (o que queremos preservar)
 t = np.arange(N_AMOSTRAS) / Fs
 d = np.sin(2 * np.pi * F_Senoide * t)
@@ -29,6 +32,9 @@ r = 1.2*x.copy()
 # 4. Sinal Contaminado (s[n]): Sinal puro + Ruído filtrado
 s = d + r
 
+# -------------------------------------------------------------
+# BLOCO 3 — INICIALIZAÇÃO DO LMS
+# -------------------------------------------------------------
 w = np.zeros(ORDEM_FILTRO)
 e_final = np.zeros(N_AMOSTRAS) # Sinal de erro final (e[n])
 
@@ -38,8 +44,9 @@ x_buffer = np.zeros(ORDEM_FILTRO)
 # Vetor para plotar a função custo (opcional)
 energy_error = np.zeros(N_EPOCHS)
 
-# --- Loop Principal LMS com EPOCHS (Convergência Forçada) ---
-
+# -------------------------------------------------------------
+# BLOCO 4 — LOOP PRINCIPAL DO LMS
+# -------------------------------------------------------------
 for epoch in range(N_EPOCHS):
     int_error_sq = 0 # Erro intermediário (acumulador de energia)
     
@@ -68,8 +75,9 @@ for epoch in range(N_EPOCHS):
     energy_error[epoch] = int_error_sq / N_AMOSTRAS # Média quadrática do erro por amostra
 
 
-# --- Plotagem dos Resultados ---
-
+# -------------------------------------------------------------
+# BLOCO 5 — PLOTAGEM DOS RESULTADOS
+# -------------------------------------------------------------
 plt.figure(figsize=(10, 8))
 
 # 1. Sinal Puro (d[n])
@@ -97,13 +105,17 @@ plt.grid(True)
 plt.tight_layout()
 plt.show()
 
-# Normalização e Conversão para int16 (PCM de 16 bits)
-# Não foi usado com amplitude máximo devido a Prevenção de Saturação (Clipping) e Estabilidade do Filtro Adaptativo.
+# -------------------------------------------------------------
+# BLOCO 6 — CONVERSÃO PARA PCM
+# -------------------------------------------------------------
 d_int16 = (d * 32767/2).astype(np.int16)
 s_int16 = (s * 32767/2).astype(np.int16)
 e_int16 = (e_final * 32767/2).astype(np.int16)
+x_int16 = (x * 32767/2).astype(np.int16)
 
-# --- Salvamento dos Sinais em Arquivos PCM ---
+# -------------------------------------------------------------
+# BLOCO 7 — SALVAMENTO EM ARQUIVOS PCM
+# -------------------------------------------------------------
 
 out_1 = np.memmap("Avaliacao_M3/sinal_saida/sinal_puro.pcm", dtype='int16', mode='w+', shape=(len(d_int16),))
 out_1[:] = d_int16[:]
@@ -111,5 +123,23 @@ out_1[:] = d_int16[:]
 out_2 = np.memmap("Avaliacao_M3/sinal_saida/sinal_contaminado.pcm", dtype='int16', mode='w+', shape=(len(s_int16),))
 out_2[:] = s_int16[:]
 
-out_3 = np.memmap("Avaliacao_M3/sinal_saida/sinal_recuperado.pcm", dtype='int16', mode='w+', shape=(len(e_int16),))
+out_3 = np.memmap("Avaliacao_M3/sinal_saida/sinal_recuperado_python.pcm", dtype='int16', mode='w+', shape=(len(e_int16),))
 out_3[:] = e_int16[:]
+
+out_4 = np.memmap("Avaliacao_M3/sinal_saida/ruido_referencia.pcm", dtype='int16', mode='w+', shape=(len(x_int16),))
+out_4[:] = x_int16[:]
+
+# -------------------------------------------------------------
+# BLOCO 8 — FUNÇÃO CUSTO
+# -------------------------------------------------------------
+plt.figure(figsize=(6, 4))
+plt.plot(range(1, N_EPOCHS + 1), energy_error, marker='o', linestyle='-')
+plt.title('Função Custo (Energy Error) vs. Época', fontsize=12)
+plt.xlabel('Época')
+plt.ylabel('MSE (Mean Square Error)')
+plt.grid(True)
+plt.show()
+
+print("\n--- Resultado (PYTHON) ---")
+print(f"Pesos Finais do Filtro w: {w}")
+# Resultado esperado (ideal): w = [1.2, 0.0, 0.0, 0.0, 0.0]
